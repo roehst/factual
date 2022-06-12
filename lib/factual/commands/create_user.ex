@@ -6,7 +6,8 @@ defmodule Factual.Commands.CreateUser do
   def create_user(email) do
     case Repo.get_by(User, email: email) do
       nil ->
-        Projections.update(%{type: "user_created", email: email})
+        id = Ecto.UUID.generate()
+        Projections.update(%{type: "user_created", id: id, email: email})
 
       %User{} ->
         {:error, "User already exists"}
