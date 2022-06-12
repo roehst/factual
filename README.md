@@ -2,21 +2,17 @@
 
 This is an example of an extremely lightweight event source implementation, fitting in less than 500 lines.
 
-- It is entirelly sequential, providing strong consistency. - It is not designed for heavy loads.
+The key design choice was to keep the code synchronous, without introducing a pub sub or event bus.
 
-## Installation
+The overall architecture is simple:
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `factual` to your list of dependencies in `mix.exs`:
+- Commands are validated against projections.
+- Commands emit events.
+- Events update projections.
 
-```elixir
-def deps do
-  [
-    {:factual, "~> 0.1.0"}
-  ]
-end
-```
+As such:
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/factual](https://hexdocs.pm/factual).
+- It is entirelly sequential, providing strong consistency.
+- It is not designed for heavy loads.
+
+Ecto is used for storing events.
