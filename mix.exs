@@ -37,7 +37,8 @@ defmodule Factual.MixProject do
       {:ecto_sqlite3, "~> 0.7.5"},
       {:jason, "~> 1.3"},
       {:absinthe, "~> 1.6.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:absinthe_plug, "~> 1.5"}
     ]
   end
 end
