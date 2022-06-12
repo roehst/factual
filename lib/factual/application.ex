@@ -9,7 +9,7 @@ defmodule Factual.Application do
   def start(_type, _args) do
     children = [
       Factual.Repo,
-      {Plug.Cowboy, scheme: :http, plug: Web.Router, options: [port: 4001]}
+      {Plug.Cowboy, scheme: :http, plug: Web.Router, options: [port: 4004]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

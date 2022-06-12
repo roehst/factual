@@ -1,10 +1,19 @@
 defmodule Web.Router do
   use Plug.Router
 
+  plug(Plug.Parsers,
+    parsers: [:urlencoded, :multipart, :json, Absinthe.Plug.Parser],
+    pass: ["*/*"],
+    json_decoder: Jason
+  )
+
   plug(:match)
   plug(:dispatch)
 
-  get _ do
-    send_resp(conn, 200, "Ok")
-  end
+  plug(Absinthe.Plug, schema: Factual.Schema)
+
+  forward("/graphiql",
+    to: Absinthe.Plug.GraphiQL,
+    init_opts: [schema: Factual.Schema, interface: :simple]
+  )
 end
