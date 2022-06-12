@@ -2,7 +2,8 @@ defmodule Factual.Projections do
   alias Factual.{Event, Repo}
 
   @projections [
-    Factual.Projections.User
+    Factual.Projections.User,
+    Factual.Projections.Bookmark
   ]
 
   def update(event) do
@@ -12,7 +13,9 @@ defmodule Factual.Projections do
       event_data = translate_atoms_to_strings(event.data)
 
       for projection <- @projections do
-        projection.update(event_data)
+        if projection.select(event_data) do
+          projection.update(event_data)
+        end
       end
     else
       raise "Event must be a flat map, with no nested values"
@@ -26,11 +29,16 @@ defmodule Factual.Projections do
 
     events = Repo.all(Event)
 
-    for e <- events do
-      d = e.data
+    for p <- @projections do
+      p_events =
+        events
+        |> Enum.map(&Map.get(&1, :data))
+        |> Enum.filter(&p.select/1)
 
-      for p <- @projections do
-        p.update(d)
+      IO.inspect("Projection #{p} has #{Enum.count(p_events)} events")
+
+      for e <- p_events do
+        p.update(e)
       end
     end
   end
