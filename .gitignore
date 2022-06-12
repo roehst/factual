@@ -25,4 +25,4 @@ factual-*.tar
 # Temporary files, for example, from tests.
 /tmp/
 
-*.sqlite3
+*.sqlite3*
