@@ -8,7 +8,8 @@ defmodule Factual.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      Factual.Repo
+      Factual.Repo,
+      {Plug.Cowboy, scheme: :http, plug: Web.Router, options: [port: 4001]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
